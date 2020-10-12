@@ -1,0 +1,30 @@
+1.接口，public static <T> List<T> query(List<T> data, Wheres wheres, List<QuerySort> querySorts, Limit limit)
+2.排序，支持T任何字段的过滤（支持and, or操作）
+3.排序，支持多个的排序，以及升倒序
+4.分组，支持多个（复用排序功能，单字段排序即为分组）
+5.返回结果，支持返回最大结果数
+
+返回：
+    查询后的结果
+
+eg.
+        Wheres wheres = new Wheres();
+        List<Where> wheresAnd = new ArrayList<>();
+        wheresAnd.add(new Where("age", Operator.NEQ, 4));
+        wheres.setWheresAnd(wheresAnd);
+        List<Where> wheresOr = new ArrayList<>();
+        wheresOr.add(new Where("age", Operator.NEQ, 8));
+        wheres.setWheresOr(wheresOr);
+
+        List<QuerySort> querySorts = new ArrayList<>();
+        querySorts.add(new QuerySort("age", QuerySortType.DES));
+        querySorts.add(new QuerySort("age", QuerySortType.AES));
+
+        Limit limit = new Limit(55);
+        List<Student> result = SqlQuery.query(students, wheres, querySorts, limit);
+
+input = [sam,6][tom,1][jak,4][bam,6][ack,8][som,1]
+will back max size data : 5
+output = [tom,1][som,1][sam,6][bam,6][ack,8]
+
+//todo 详见todo
